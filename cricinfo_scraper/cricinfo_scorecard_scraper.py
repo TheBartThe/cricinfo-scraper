@@ -25,7 +25,10 @@ def get_score_data(url):
         )
         columns = columns.find_elements(By.CSS_SELECTOR, "th")
         columns = [element.get_attribute("innerHTML") for element in columns]
-        print(",".join(columns))
+        columns = ",".join(columns)
+        with open("./data/batters.csv", "a") as f:
+            f.write(columns)
+            f.write("\n")
 
         batters = driver.find_elements(
             By.CSS_SELECTOR,
@@ -66,7 +69,11 @@ def get_score_data(url):
             except NoSuchElementException:
                 pass
             else:
-                print(",".join(content))
+                content = ",".join(content)
+                with open("./data/batters.csv", "a") as f:
+                    f.write(content)
+                    f.write("\n")
+
 
 
 def main():
