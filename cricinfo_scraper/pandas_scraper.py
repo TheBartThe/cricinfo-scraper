@@ -4,6 +4,18 @@ Collects data from a cricinfo scorecard and outputs it into a csv
 
 import pandas as pd
 
-tables = pd.read_html("https://www.espncricinfo.com/series/indian-premier-league-2022-1298423/gujarat-titans-vs-rajasthan-royals-final-1312200/full-scorecard", match="BATTING")
-df = pd.concat(tables)
-df.to_csv("./data/batters.csv")
+
+def read_scorecard(link: str):
+    """
+    Reads a table of batting info from a cricinfo scorecard link, and return a pandas dataframe
+
+            Parameters:
+                link (str): url link to a cricinfo scorecard
+
+            Returns:
+                df (pandas dataframe): dataframe containing raw data of batting scorecards
+    """
+
+    tables = pd.read_html(link, match="BATTING")
+    df = pd.concat(tables)
+    return df
