@@ -1,3 +1,7 @@
+"""
+Cleans the data from the scorecards collected from the cricinfo website
+"""
+
 import pandas as pd
 
 df = pd.read_csv("./data/batters.csv")
