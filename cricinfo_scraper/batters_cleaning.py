@@ -33,6 +33,7 @@ def clean_batters_dataframe(df: DataFrame) -> DataFrame:
     df = rename_columns(df)
     df = clean_name(df)
     df = out_column(df)
+    df = change_column_types(df)
     return df
 
 
