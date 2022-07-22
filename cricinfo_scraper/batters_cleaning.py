@@ -25,7 +25,7 @@ def clean_batters_dataframe(df: DataFrame) -> DataFrame:
     df.dropna(subset=["BATTING", "B"], inplace=True)
     df = df.loc[~df["BATTING"].str.startswith(("Did not bat", "Fall of wickets"))]
     df.reset_index(drop=True, inplace=True)
-    df.rename(columns={"BATTING": "Batting",
+    df.rename(columns={"BATTING": "Batter",
                     "Unnamed: 1": "Dismissal",
                     "R": "Runs",
                     "B": "Balls",
@@ -34,5 +34,5 @@ def clean_batters_dataframe(df: DataFrame) -> DataFrame:
                     "4s": "Fours",
                     "6s": "Sixes"}, inplace=True)
     df["Out"] = df["Dismissal"] != "not out"
-    df["Batting"] = df["Batting"].str.replace("(†|\(c\))","", regex=True).str.strip()
+    df["Batter"] = df["Batter"].str.replace("(†|\(c\))","", regex=True).str.strip()
     return df
