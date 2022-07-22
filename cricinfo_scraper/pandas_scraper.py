@@ -11,7 +11,7 @@ from pandas import DataFrame
 from typing import List
 
 
-def read_scorecard(link: str):
+def read_scorecard(link: str) -> DataFrame:
     """
     Reads a table of batting info from a cricinfo scorecard link, and return a pandas dataframe
 

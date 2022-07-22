@@ -30,7 +30,9 @@ def clean_batters_dataframe(df: DataFrame) -> DataFrame:
                     "R": "Runs",
                     "B": "Balls",
                     "M": "Minutes",
-                    "SR": "StrikeRate"}, inplace=True)
+                    "SR": "StrikeRate",
+                    "4s": "Fours",
+                    "6": "Sixes"}, inplace=True)
     df["Out"] = df["Dismissal"] != "not out"
     df["Batting"] = df["Batting"].str.replace("(†|\(c\))","", regex=True).str.strip()
     return df
