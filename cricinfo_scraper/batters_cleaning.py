@@ -103,7 +103,7 @@ def clean_name(df: DataFrame) -> DataFrame:
         Returns:
                 df (DataFrame): A dataframe of batters with names cleaned
     """
-    df["Batter"] = df["Batter"].str.replace("(†|\(c\))", "", regex=True).str.strip()
+    df["Batter"] = df["Batter"].str.replace(r"(†|\(c\))", "", regex=True).str.strip()
     return df
 
 
