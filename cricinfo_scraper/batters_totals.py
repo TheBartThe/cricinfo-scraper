@@ -22,6 +22,6 @@ def batters_totals(df: DataFrame) -> DataFrame:
                     totals_df (DataFrame): A dataframe with the totals for each batter
     """
     totals_df: DataFrame = df.groupby("Batter", as_index=False)[
-        ["Runs", "Balls", "Fours", "Sixes", "Out"]
+        ["Runs", "Balls", "Minutes", "Fours", "Sixes", "Out"]
     ].sum()
     return totals_df

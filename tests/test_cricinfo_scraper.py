@@ -15,6 +15,7 @@ from cricinfo_scraper.batters_cleaning import (
     out_column,
     change_column_types,
 )
+from cricinfo_scraper.batters_totals import batters_totals
 
 
 @pytest.fixture
@@ -352,6 +353,26 @@ def changed_types_df() -> DataFrame:
     )
 
 
+@pytest.fixture
+def totals_df() -> DataFrame:
+    return DataFrame(
+        {
+            "Batter": [
+                "Joe Root",
+                "Virat Kholi",
+                "Jos Buttler",
+                "Sanga",
+            ],
+            "Runs": [134, 63, 132, 221],
+            "Balls": [95, 38, 103, 148],
+            "Minutes": [61, 55, 124, 103],
+            "Fours": [16, 37, 102, 135],
+            "Sixes": [38, 8, 193, 241],
+            "Out": [0, 1, 1, 0],
+        }
+    )
+
+
 def test_version():
     assert __version__ == "0.1.0"
 
@@ -403,3 +424,8 @@ def test_scrape_dataframe(
     read_html_mock.return_value = [split_df_1, split_df_2]
     new_df = read_scorecard("test")
     assert_frame_equal(new_df.reset_index(drop=True), dirty_df)
+
+
+def test_totals_dataframe(changed_types_df: DataFrame, totals_df: DataFrame):
+    new_df = batters_totals(changed_types_df).sort_values(by="Batter")
+    assert_frame_equal(new_df, totals_df.sort_values(by="Batter").reset_index(drop=True))
