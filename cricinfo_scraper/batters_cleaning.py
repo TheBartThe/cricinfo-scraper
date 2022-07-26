@@ -7,15 +7,15 @@ Functions:
     remove_unwanted_columns(DataFrame) -> DataFrame
     remove_unwanted_rows(DataFrame) -> DataFrame
     rename_columns(DataFrame) -> DataFrame
+    clean_strike_rate(DataFrame) -> DataFrame
     clean_name(DataFrame) -> DataFrame
     out_column(DataFrame) -> DataFrame
     change_column_types(DataFrame) -> DataFrame
+    store_cleaned_data() -> None
 """
 
 import pandas as pd
 from pandas import DataFrame
-
-# df: DataFrame = pd.read_csv("./data/batters.csv", index_col = "Unnamed: 0")
 
 
 def clean_batters_dataframe(df: DataFrame) -> DataFrame:
@@ -31,6 +31,7 @@ def clean_batters_dataframe(df: DataFrame) -> DataFrame:
     df = remove_unwanted_columns(df)
     df = remove_unwanted_rows(df)
     df = rename_columns(df)
+    df = clean_strike_rate(df)
     df = clean_name(df)
     df = out_column(df)
     df = change_column_types(df)
@@ -93,6 +94,20 @@ def rename_columns(df: DataFrame) -> DataFrame:
     return df
 
 
+def clean_strike_rate(df: DataFrame) -> DataFrame:
+    """
+    Cleans the strike rate of the batter in the batters dataframe
+
+        Parameters:
+                df (DataFrame): A dataframe of batters from a scorecard
+
+        Returns:
+                df (DataFrame): A dataframe of batters with strike rates cleaned
+    """
+    df["StrikeRate"] = df["StrikeRate"].str.replace("-", "0")
+    return df
+
+
 def clean_name(df: DataFrame) -> DataFrame:
     """
     Cleans the name of the batter in the batters dataframe
@@ -142,3 +157,18 @@ def change_column_types(df: DataFrame) -> DataFrame:
         }
     )
     return df
+
+
+def store_cleaned_dataframe() -> None:
+    """
+    Cleans and dataframe of batters and stores it as a csv file.
+
+        Parameters:
+                None
+
+        Returns:
+                None
+    """
+    df: DataFrame = pd.read_csv("./data/batters.csv", index_col = "Unnamed: 0")
+    df = clean_batters_dataframe(df)
+    df.to_csv("./data/batters_cleaned.csv")

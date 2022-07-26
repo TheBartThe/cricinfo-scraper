@@ -11,6 +11,7 @@ from cricinfo_scraper.batters_cleaning import (
     remove_unwanted_columns,
     remove_unwanted_rows,
     rename_columns,
+    clean_strike_rate,
     clean_name,
     out_column,
     change_column_types,
@@ -59,7 +60,7 @@ def split_df_2() -> DataFrame:
             "M": ["25", "124", "8", "103", "4"],
             "4s": ["64", "102", "12", "135", "8"],
             "6s": ["92", "193", "31", "241", "1"],
-            "SR": ["40.52", "14.53", "152.52", "52.12", "204.41"],
+            "SR": ["40.52", "14.53", "152.52", "-", "204.41"],
             "Unnamed: 8": ["dfg", "fgds", NaN, "efg", NaN],
             "Unnamed: 9": ["dfg", "fgds", NaN, "efg", NaN],
         }
@@ -108,7 +109,7 @@ def dirty_df() -> DataFrame:
                 "40.52",
                 "14.53",
                 "152.52",
-                "52.12",
+                "-",
                 "204.41",
             ],
             "Unnamed: 8": [NaN, "dsg", NaN, NaN, "rwg", "dfg", "fgds", NaN, "efg", NaN],
@@ -159,7 +160,7 @@ def removed_columns_df() -> DataFrame:
                 "40.52",
                 "14.53",
                 "152.52",
-                "52.12",
+                "-",
                 "204.41",
             ],
         }
@@ -197,7 +198,7 @@ def removed_rows_df() -> DataFrame:
                 "5.24",
                 "14.53",
                 "152.52",
-                "52.12",
+                "-",
             ],
         }
     )
@@ -234,7 +235,44 @@ def renamed_columns_df() -> DataFrame:
                 "5.24",
                 "14.53",
                 "152.52",
-                "52.12",
+                "-",
+            ],
+        }
+    )
+
+
+@pytest.fixture
+def cleaned_strike_rate_df() -> DataFrame:
+    return DataFrame(
+        {
+            "Batter": [
+                "Joe Root",
+                "Virat Kholi (c)",
+                "Virat Kholi",
+                "Jos Buttler †",
+                "Joe Root",
+                "Sanga (c) †",
+            ],
+            "Dismissal": [
+                "not out",
+                "caught",
+                "not out",
+                "bowled",
+                "not out",
+                "not out",
+            ],
+            "Runs": ["41", "12", "51", "132", "93", "221"],
+            "Balls": ["32", "31", "7", "103", "63", "148"],
+            "Minutes": ["53", "42", "13", "124", "8", "103"],
+            "Fours": ["4", "1", "36", "102", "12", "135"],
+            "Sixes": ["7", "4", "4", "193", "31", "241"],
+            "StrikeRate": [
+                "84.24",
+                "53.14",
+                "5.24",
+                "14.53",
+                "152.52",
+                "0",
             ],
         }
     )
@@ -271,7 +309,7 @@ def cleaned_names_df() -> DataFrame:
                 "5.24",
                 "14.53",
                 "152.52",
-                "52.12",
+                "0",
             ],
         }
     )
@@ -308,7 +346,7 @@ def out_column_df() -> DataFrame:
                 "5.24",
                 "14.53",
                 "152.52",
-                "52.12",
+                "0",
             ],
             "Out": [False, True, False, True, False, False],
         }
@@ -346,7 +384,7 @@ def changed_types_df() -> DataFrame:
                 5.24,
                 14.53,
                 152.52,
-                52.12,
+                0,
             ],
             "Out": [False, True, False, True, False, False],
         }
@@ -392,8 +430,13 @@ def test_rename_columns(removed_rows_df: DataFrame, renamed_columns_df: DataFram
     assert_frame_equal(new_df, renamed_columns_df)
 
 
-def test_clean_names(renamed_columns_df: DataFrame, cleaned_names_df: DataFrame):
-    new_df = clean_name(renamed_columns_df)
+def test_clean_strike_rate(renamed_columns_df: DataFrame, cleaned_strike_rate_df: DataFrame):
+    new_df = clean_strike_rate(renamed_columns_df)
+    assert_frame_equal(new_df, cleaned_strike_rate_df)
+
+
+def test_clean_names(cleaned_strike_rate_df: DataFrame, cleaned_names_df: DataFrame):
+    new_df = clean_name(cleaned_strike_rate_df)
     assert_frame_equal(new_df, cleaned_names_df)
 
 
