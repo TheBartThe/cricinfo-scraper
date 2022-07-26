@@ -5,7 +5,7 @@ from pandas import DataFrame
 from pandas.testing import assert_frame_equal
 from numpy import NaN
 from cricinfo_scraper import __version__
-from cricinfo_scraper.pandas_scraper import read_scorecard
+from cricinfo_scraper.pandas_scraper import read_scorecard, get_all_scorecards
 from cricinfo_scraper.batters_cleaning import (
     clean_batters_dataframe,
     remove_unwanted_columns,
@@ -426,6 +426,21 @@ def test_scrape_dataframe(
     assert_frame_equal(new_df.reset_index(drop=True), dirty_df)
 
 
+@patch("cricinfo_scraper.pandas_scraper.read_scorecard")
+def test_get_all_scorecards(
+    read_scorecard_mock: Mock,
+    dirty_df: DataFrame,
+):
+    read_scorecard_mock.return_value = dirty_df
+    new_df = get_all_scorecards(["test1", "test2"])
+    combined_df = pd.concat([dirty_df, dirty_df])
+    assert_frame_equal(
+        new_df.reset_index(drop=True), combined_df.reset_index(drop=True)
+    )
+
+
 def test_totals_dataframe(changed_types_df: DataFrame, totals_df: DataFrame):
     new_df = batters_totals(changed_types_df).sort_values(by="Batter")
-    assert_frame_equal(new_df, totals_df.sort_values(by="Batter").reset_index(drop=True))
+    assert_frame_equal(
+        new_df, totals_df.sort_values(by="Batter").reset_index(drop=True)
+    )
