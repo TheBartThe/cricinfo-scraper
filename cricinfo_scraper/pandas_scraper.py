@@ -41,3 +41,8 @@ def get_all_scorecards(links: List[str]):
     frames: List[DataFrame] = [read_scorecard(link) for link in links]
     df: DataFrame = pd.concat(frames)
     return df
+
+
+def store_raw_scorecard(links: List[str]):
+    df = get_all_scorecards(links)
+    df.to_csv("./data/batters.csv")
