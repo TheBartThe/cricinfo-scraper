@@ -32,6 +32,7 @@ def get_links() -> List[str]:
             By.CSS_SELECTOR,
             "a[href^='/series/indian-premier-league-2022-1298423/'][href$='full-scorecard']",
         )
+        links = [link.get_attribute("href") for link in links]
         return links
 
 
@@ -40,4 +41,5 @@ def get_all_links(driver) -> List[str]:
             By.CSS_SELECTOR,
             "a[href^='/series/indian-premier-league-2022-1298423/'][href$='full-scorecard']",
         )
+    links = [link.get_attribute("href") for link in links]
     return links
