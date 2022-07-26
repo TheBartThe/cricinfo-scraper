@@ -25,3 +25,9 @@ def read_scorecard(link: str) -> DataFrame:
     tables: List[DataFrame] = pd.read_html(link, match="BATTING")
     df: DataFrame = pd.concat(tables)
     return df
+
+
+def get_all_scorecards(links: List[str]):
+    frames: List[DataFrame] = [read_scorecard(link) for link in links]
+    df: DataFrame = pd.concat(frames)
+    return df
