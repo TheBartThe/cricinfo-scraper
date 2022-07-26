@@ -45,5 +45,14 @@ def get_all_scorecards(links: List[str]) -> DataFrame:
 
 
 def store_raw_scorecard(links: List[str]) -> None:
+    """
+    Reads tables of batting info from a list of cricinfo scorecard links, and stores them in a csv file
+
+            Parameters:
+                links (List[str]): url link to cricinfo scorecards
+
+            Returns:
+                None
+    """
     df = get_all_scorecards(links)
     df.to_csv("./data/batters.csv")
