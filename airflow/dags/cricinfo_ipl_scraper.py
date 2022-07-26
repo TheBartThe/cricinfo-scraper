@@ -60,3 +60,5 @@ notify = BashOperator(
     bash_command='echo "The cricinfo tables have been stored"',
     dag=dag,
 )
+
+get_ipl_links >> store_raw_scorecard_csv >> store_cleaned_scorecard_csv >> store_batters_totals_csv >> notify
