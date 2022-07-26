@@ -4,6 +4,7 @@ Collects data from a cricinfo scorecard and outputs it into a csv
 Functions:
 
     read_scorecard(str) -> DataFrame
+    get_all_scorecards(List[str]) -> DataFrame
 """
 
 import pandas as pd
@@ -28,6 +29,15 @@ def read_scorecard(link: str) -> DataFrame:
 
 
 def get_all_scorecards(links: List[str]):
+    """
+    Reads tables of batting info from a list of cricinfo scorecard links, and return a pandas dataframe
+
+            Parameters:
+                links (List[str]): url link to cricinfo scorecards
+
+            Returns:
+                df (DataFrame): dataframe containing raw data of batting scorecards
+    """
     frames: List[DataFrame] = [read_scorecard(link) for link in links]
     df: DataFrame = pd.concat(frames)
     return df
