@@ -164,6 +164,14 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "html"
+version = "1.16"
+description = "simple, elegant HTML, XHTML and XML generation"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "idna"
 version = "3.3"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -643,7 +651,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "9e6b9cf34de8d63deb61a21dbac142969d7cfe4160fa5ae9e18df6b867556fb5"
+content-hash = "178aa9693cc3008ccc28910696935325c3d6fcb7ff61ae4b82d9b3d77a8e9ab3"
 
 [metadata.files]
 astroid = []
@@ -772,6 +780,7 @@ h11 = [
     {file = "h11-0.13.0-py3-none-any.whl", hash = "sha256:8ddd78563b633ca55346c8cd41ec0af27d3c79931828beffb46ce70a379e7442"},
     {file = "h11-0.13.0.tar.gz", hash = "sha256:70813c1135087a248a4d38cc0e1a0181ffab2188141a93eaf567940c3957ff06"},
 ]
+html = []
 idna = [
     {file = "idna-3.3-py3-none-any.whl", hash = "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff"},
     {file = "idna-3.3.tar.gz", hash = "sha256:9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"},

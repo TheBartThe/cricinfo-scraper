@@ -16,6 +16,13 @@ from cricinfo_scraper.batters_cleaning import (
     change_column_types,
 )
 from cricinfo_scraper.batters_totals import batters_totals
+# from cricinfo_scraper.cricinfo_link_scraper import get_links, get_all_links
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.chrome.service import Service
+# from webdriver_manager.chrome import ChromeDriverManager
+# from typing import List
+# import os
 
 
 @pytest.fixture
@@ -428,4 +435,36 @@ def test_scrape_dataframe(
 
 def test_totals_dataframe(changed_types_df: DataFrame, totals_df: DataFrame):
     new_df = batters_totals(changed_types_df).sort_values(by="Batter")
-    assert_frame_equal(new_df, totals_df.sort_values(by="Batter").reset_index(drop=True))
+    assert_frame_equal(
+        new_df, totals_df.sort_values(by="Batter").reset_index(drop=True)
+    )
+
+
+# @patch("cricinfo_scraper.cricinfo_link_scraper.webdriver.Chrome.get")
+# def test_scrape_links(webdriver_get_mock: Mock):
+#     file_path = os.path.abspath("tests/cricinfo_snapshot.html")
+#     chrome_options = Options()
+#     chrome_options.add_argument("--headless")
+
+#     with webdriver.Chrome(
+#         service=Service(ChromeDriverManager().install()), options=chrome_options
+#     ) as driver:
+#         #webdriver_get_mock.return_value = driver.get(f"file://{file_path}")
+#         webdriver_get_mock.return_value = driver.get("/home/vieran/cricinfo-scraper/tests/cricinfo_snapshot.html")
+#     links: List[str] = get_links()
+#     assert len(links) == 37
+
+
+# @patch("cricinfo_scraper.cricinfo_link_scraper.webdriver.Chrome.get")
+# def test_scrape_links(webdriver_get_mock: Mock):
+#     file_path = os.path.abspath("tests/cricinfo_snapshot.html")
+#     chrome_options = Options()
+#     chrome_options.add_argument("--headless")
+
+#     with webdriver.Chrome(
+#         service=Service(ChromeDriverManager().install()), options=chrome_options
+#     ) as driver:
+#         #webdriver_get_mock.return_value = driver.get(f"file://{file_path}")
+#         driver.get("file:///home/vieran/cricinfo-scraper/tests/cricinfo_snapshot.html")
+#         links: List[str] = get_all_links(driver=driver)
+#     assert len(links) == 37
