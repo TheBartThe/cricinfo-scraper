@@ -430,7 +430,9 @@ def test_rename_columns(removed_rows_df: DataFrame, renamed_columns_df: DataFram
     assert_frame_equal(new_df, renamed_columns_df)
 
 
-def test_clean_strike_rate(renamed_columns_df: DataFrame, cleaned_strike_rate_df: DataFrame):
+def test_clean_strike_rate(
+    renamed_columns_df: DataFrame, cleaned_strike_rate_df: DataFrame
+):
     new_df = clean_strike_rate(renamed_columns_df)
     assert_frame_equal(new_df, cleaned_strike_rate_df)
 

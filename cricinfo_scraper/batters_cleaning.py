@@ -169,6 +169,6 @@ def store_cleaned_dataframe() -> None:
         Returns:
                 None
     """
-    df: DataFrame = pd.read_csv("./data/batters.csv", index_col = "Unnamed: 0")
+    df: DataFrame = pd.read_csv("./data/batters.csv", index_col="Unnamed: 0")
     df = clean_batters_dataframe(df)
     df.to_csv("./data/batters_cleaned.csv")
