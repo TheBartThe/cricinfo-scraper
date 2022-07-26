@@ -31,7 +31,7 @@ def clean_batters_dataframe(df: DataFrame) -> DataFrame:
     df = remove_unwanted_columns(df)
     df = remove_unwanted_rows(df)
     df = rename_columns(df)
-    df = clean_strike_rate(df)
+    df = remove_dashes(df)
     df = clean_name(df)
     df = out_column(df)
     df = change_column_types(df)
@@ -94,17 +94,18 @@ def rename_columns(df: DataFrame) -> DataFrame:
     return df
 
 
-def clean_strike_rate(df: DataFrame) -> DataFrame:
+def remove_dashes(df: DataFrame) -> DataFrame:
     """
-    Cleans the strike rate of the batter in the batters dataframe
+    Replaces dash with 0 in columns containing numbers so type can be converted to int
 
         Parameters:
                 df (DataFrame): A dataframe of batters from a scorecard
 
         Returns:
-                df (DataFrame): A dataframe of batters with strike rates cleaned
+                df (DataFrame): A dataframe of batters with dashes removed
     """
-    df["StrikeRate"] = df["StrikeRate"].str.replace("-", "0")
+    cols = ["Runs", "Balls", "Minutes", "Fours", "Sixes", "StrikeRate"]
+    df[cols] = df[cols].replace("-", "0")
     return df
 
 
