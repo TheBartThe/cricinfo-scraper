@@ -11,7 +11,7 @@ from cricinfo_scraper.batters_totals import store_batters_totals
 
 
 dag = DAG(
-    dag_id="extract, clean and transform cricinfo ipl data",
+    dag_id="extract_clean_transform_cricinfo_ipl_data",
     start_date=airflow.utils.dates.days_ago(1),
     schedule_interval=None,
 )
@@ -30,7 +30,7 @@ get_ipl_links = PythonOperator(
 
 
 def _store_raw_scorecard(ti):
-    links = ti.xcom_pull(key="links", task_ids="get_ipl_links")
+    links = ti.xcom_pull(key="links", task_ids="get_links")
     store_raw_scorecard(links)
 
 
