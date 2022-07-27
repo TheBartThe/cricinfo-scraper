@@ -8,9 +8,9 @@ Functions:
     store_raw_scorecard(List[str]) -> None
 """
 
+from typing import List
 import pandas as pd
 from pandas import DataFrame
-from typing import List
 
 
 def read_scorecard(link: str) -> DataFrame:
