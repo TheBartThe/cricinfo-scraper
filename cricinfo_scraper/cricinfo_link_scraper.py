@@ -19,27 +19,33 @@ def get_links() -> List[str]:
             Returns:
                     links (List[str]): A list of links to scorecards
     """
+    with make_driver() as driver:
+        driver = get_cricinfo_driver(driver)
+        links: List[str] = get_all_links(driver)
+        return links
+
+
+def make_driver() -> webdriver:
     chrome_options = Options()
     chrome_options.add_argument("--headless")
 
-    with webdriver.Chrome(
+    driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()), options=chrome_options
-    ) as driver:
-        driver.get(
+    )
+    return driver
+
+
+def get_cricinfo_driver(driver: webdriver) -> webdriver:
+    driver.get(
             "https://www.espncricinfo.com/series/indian-premier-league-2022-1298423/match-results"
         )
-        links: List[str] = driver.find_elements(
-            By.CSS_SELECTOR,
-            "a[href^='/series/indian-premier-league-2022-1298423/'][href$='full-scorecard']",
-        )
-        links = [link.get_attribute("href") for link in links]
-        return links
+    return driver
 
 
 def get_all_links(driver) -> List[str]:
     links: List[str] = driver.find_elements(
-            By.CSS_SELECTOR,
-            "a[href^='/series/indian-premier-league-2022-1298423/'][href$='full-scorecard']",
-        )
+        By.CSS_SELECTOR,
+        "a[href^='/series/indian-premier-league-2022-1298423/'][href$='full-scorecard']",
+    )
     links = [link.get_attribute("href") for link in links]
     return links

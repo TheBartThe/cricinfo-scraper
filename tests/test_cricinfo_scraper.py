@@ -17,6 +17,7 @@ from cricinfo_scraper.batters_cleaning import (
     change_column_types,
 )
 from cricinfo_scraper.batters_totals import batters_totals
+
 # from cricinfo_scraper.cricinfo_link_scraper import get_links, get_all_links
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
