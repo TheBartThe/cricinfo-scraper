@@ -5,6 +5,7 @@ Functions:
 
     read_scorecard(str) -> DataFrame
     get_all_scorecards(List[str]) -> DataFrame
+    store_raw_scorecard(List[str]) -> None
 """
 
 import pandas as pd
@@ -28,7 +29,7 @@ def read_scorecard(link: str) -> DataFrame:
     return df
 
 
-def get_all_scorecards(links: List[str]):
+def get_all_scorecards(links: List[str]) -> DataFrame:
     """
     Reads tables of batting info from a list of cricinfo scorecard links, and return a pandas dataframe
 
@@ -41,3 +42,17 @@ def get_all_scorecards(links: List[str]):
     frames: List[DataFrame] = [read_scorecard(link) for link in links]
     df: DataFrame = pd.concat(frames)
     return df
+
+
+def store_raw_scorecard(links: List[str]) -> None:
+    """
+    Reads tables of batting info from a list of cricinfo scorecard links, and stores them in a csv file
+
+            Parameters:
+                links (List[str]): url link to cricinfo scorecards
+
+            Returns:
+                None
+    """
+    df = get_all_scorecards(links)
+    df.to_csv("./data/batters.csv")
