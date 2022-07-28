@@ -39,7 +39,7 @@ get_ipl_links = PythonOperator(
 def _store_raw_scorecard(ti):
     links = ti.xcom_pull(key="links", task_ids="get_links")
     df = get_all_scorecards(links)
-    df.to_csv("./data/batters.csv")
+    df.to_csv("./airflow/data/batters.csv")
 
 
 store_raw_scorecard_csv = PythonOperator(
@@ -52,9 +52,9 @@ store_raw_scorecard_csv = PythonOperator(
 def _store_cleaned_scorecard(ti):
     import pandas as pd
 
-    df: pd.DataFrame = pd.read_csv("./data/batters.csv", index_col="Unnamed: 0")
+    df: pd.DataFrame = pd.read_csv("./airflow/data/batters.csv", index_col="Unnamed: 0")
     df = clean_batters_dataframe(df)
-    df.to_csv("./data/batters_cleaned.csv")
+    df.to_csv("./airflow/data/batters_cleaned.csv")
 
 
 store_cleaned_scorecard_csv = PythonOperator(
@@ -66,10 +66,13 @@ store_cleaned_scorecard_csv = PythonOperator(
 
 def _store_batters_totals():
     import pandas as pd
+    from sqlalchemy import create_engine
+    engine = create_engine('postgresql://postgres:<PASSWORD>@localhost:5432/cricinfo')
 
-    df = pd.read_csv("./data/batters_cleaned.csv")
+    df = pd.read_csv("./airflow/data/batters_cleaned.csv")
     df = batters_totals(df)
-    df.to_csv("./data/batters_totals.csv")
+    with engine.connect() as connection:
+        df.to_sql(name="batters_totals", con=connection)
 
 
 store_batters_totals_csv = PythonOperator(
