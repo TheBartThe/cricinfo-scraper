@@ -67,7 +67,11 @@ store_cleaned_scorecard_csv = PythonOperator(
 def _store_batters_totals():
     import pandas as pd
     from sqlalchemy import create_engine
-    engine = create_engine('postgresql://postgres:<PASSWORD>@localhost:5432/cricinfo')
+    from dotenv import load_dotenv
+    load_dotenv()
+    POSTGRES_USER = os.getenv('POSTGRES_USER')
+    POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
+    engine = create_engine(f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost:5432/cricinfo')
 
     df = pd.read_csv("./airflow/data/batters_cleaned.csv")
     df = batters_totals(df)
